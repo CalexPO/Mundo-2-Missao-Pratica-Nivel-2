@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando</title>
+    <link rel="stylesheet" href="css/formato.css">
+    <script src="ordenando.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Ordenando Valores</h1>
+        <label>Valor</label>
+        <input type="number" id="valor" placeholder="Digite um valor">
+        <button id="adicionar" onclick="add()">Adicionar</button>
+        <p></p>
+        <hr> <!-- Linha horizontal -->
+        <p></p>
+        <select id="algoritmo">
+            <option value="bubble">Bubble Sort</option>
+            <option value="selection">Selection Sort</option>
+            <option value="quick">Quick Sort</option>
+        </select>
+
+        <button id="ordenar" onclick="ordenar()">Ordenar</button>
+        <button id="misturar" onclick="misturar()">Misturar</button>
+
+        <ul id="valores"></ul>
+    </div>
+
+    <script>
+        function add() {
+            const inputValue = document.getElementById("valor").value;
+            const valoresList = document.getElementById("valores");
+            const node = document.createElement("li");
+            const textNode = document.createTextNode(inputValue);
+            node.appendChild(textNode);
+            valoresList.appendChild(node);
+        }
+
+        function ordenar() {
+            const valoresList = document.getElementById("valores");
+            const algoritmoSelecionado = document.getElementById("algoritmo").value;
+            const valoresArray = Array.from(valoresList.children).map(item => parseInt(item.innerHTML));
+            
+            // Escolha do algoritmo de ordenação
+            if (algoritmoSelecionado === "bubble") {
+                bubbleSort(valoresArray);
+            } else if (algoritmoSelecionado === "selection") {
+                selectionSort(valoresArray);
+            } else if (algoritmoSelecionado === "quick") {
+                quickSort(valoresArray, 0, valoresArray.length - 1);
+            }
+
+            // Atualizar a lista de valores ordenados
+            valoresList.innerHTML = ""; // Limpar a lista
+            valoresArray.forEach(value => {
+                const node = document.createElement("li");
+                const textNode = document.createTextNode(value);
+                node.appendChild(textNode);
+                valoresList.appendChild(node);
+            });
+        }
+
+        function misturar() {
+            const valoresList = document.getElementById("valores");
+            const valoresArray = Array.from(valoresList.children).map(item => parseInt(item.innerHTML));
+            shuffle(valoresArray, valoresArray.length * 2); // Misturar o array
+            // Atualizar a lista com os valores misturados
+            valoresList.innerHTML = ""; // Limpar a lista
+            valoresArray.forEach(value => {
+                const node = document.createElement("li");
+                const textNode = document.createTextNode(value);
+                node.appendChild(textNode);
+                valoresList.appendChild(node);
+            });
+        }
+    </script>
+</body>
+</html>
